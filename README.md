@@ -1,7 +1,7 @@
 # Python Wordpress API
 
 [![Pypi][pypi-image]][pypi-url]
-[![Pyup][pyup-image]][pyup-url]
+[![Updates][pyup-image]][pyup-url]
 
 
 Simple wrapper around the Wordpress REST API
@@ -19,7 +19,7 @@ Simple wrapper around the Wordpress REST API
 make test
 ```
 
-[pypi-image]: https://img.shields.io/npm/v/co.svg?style=flat-square
-[pypi-url]: https://npmjs.org/package/co
-[pyup-image]: https://img.shields.io/travis/tj/co.svg?style=flat-square
-[pyup-url]: https://travis-ci.org/tj/co
+[pypi-image]: https://img.shields.io/pypi/v/python_wpapi.svg 
+[pypi-url]: https://pypi.python.org/pypi/python_wpapi
+[pyup-image]: https://pyup.io/repos/github/Lobosque/python_wpapi/shield.svg 
+[pyup-url]: https://pyup.io/repos/github/Lobosque/python_wpapi/ 
