@@ -19,7 +19,15 @@ Simple wrapper around the Wordpress REST API
 Features
 --------
 
-* TODO
+* Will soon work on some documentation
+
+Tests
+--------
+
+.. code-block::
+    ```
+    make test
+    ```
 
 Credits
 ---------
