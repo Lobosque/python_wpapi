@@ -1,4 +1,4 @@
-.PHONY: clean clean-pyc clean-build help
+.PHONY: clean clean-test clean-pyc clean-build help
 .DEFAULT_GOAL := help
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
@@ -26,7 +26,7 @@ BROWSER := python -c "$$BROWSER_PYSCRIPT"
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-clean: clean-build clean-pyc ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -40,6 +40,26 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
+
+clean-test: ## remove test and coverage artifacts
+	rm -fr .tox/
+	rm -f .coverage
+	rm -fr htmlcov/
+
+lint: ## check style with flake8
+	flake8 python_wpapi tests
+
+test: ## run tests quickly with the default Python
+	py.test
+
+test-all: ## run tests on every Python version with tox
+	tox
+
+coverage: ## check code coverage quickly with the default Python
+	coverage run --source python_wpapi -m pytest
+		coverage report -m
+		coverage html
+		$(BROWSER) htmlcov/index.html
 
 release: clean ## package and upload a release
 	python setup.py sdist upload

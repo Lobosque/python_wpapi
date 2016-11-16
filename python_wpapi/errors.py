@@ -10,9 +10,9 @@ class WpApiError(Exception):
     def factory(response):
         status_code = response.status_code
         payload = response.json()
-        code = payload['code']
-        message = payload['message']
-        data = payload['data']
+        code = payload.get('code')
+        message = payload.get('message')
+        data = payload.get('data')
         if status_code == 400:
             return BadRequestWpApiError(code, message, data)
         elif status_code == 401:
@@ -30,9 +30,9 @@ class BadRequestWpApiError(WpApiError):
         super(BadRequestWpApiError, self).__init__(400, code, message, data)
 
 
-class UnauthorizedApiErro(WpApiError):
+class UnauthorizedWpApiError(WpApiError):
     def __init__(self, code='', message='', data={}):
-        super(NotFoundWpApiError, self).__init__(401, code, message, data)
+        super(UnauthorizedWpApiError, self).__init__(401, code, message, data)
 
 
 class ForbiddenWpApiError(WpApiError):

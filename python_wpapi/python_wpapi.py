@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
-from errors import WpApiError
+from python_wpapi.errors import WpApiError
 
 
 class WpApi():
@@ -24,7 +24,7 @@ class WpApi():
             auth=self.auth,
             params=params,
             json=data,
-            headers = headers
+            headers=headers
         )
         if not response.status_code // 100 == 2:
             error = WpApiError.factory(response)
@@ -45,7 +45,7 @@ class WpApi():
 
     def update_post(self, id, **data):
         endpoint = '{}/posts/{}'.format(self.base_url, id)
-        return self._request(endpoint, data)
+        return self._request(endpoint, method='POST', **data)
 
     def get_medias(self):
         endpoint = '{}/media'.format(self.base_url)
@@ -66,3 +66,7 @@ class WpApi():
     def get_taxonomies(self, type=None):
         endpoint = '{}/taxonomies'.format(self.base_url)
         return self._request(endpoint, type=type)
+
+    def get_taxonomy(self, slug):
+        endpoint = '{}/taxonomies/{}'.format(self.base_url, slug)
+        return self._request(endpoint)
