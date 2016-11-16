@@ -14,7 +14,7 @@ Python Wordpress API
 Simple wrapper around the Wordpress REST API
 
 
-* Free software: MIT license
+* Free software: MIT licensea
 
 Features
 --------
@@ -25,9 +25,8 @@ Tests
 --------
 
 .. code-block::
-    ```
+
     make test
-    ```
 
 Credits
 ---------
