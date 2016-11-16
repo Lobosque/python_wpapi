@@ -1,13 +1,9 @@
-=======
-Credits
-=======
+# Credits
 
-Development Lead
-----------------
+## Development Lead
 
 * Lucas Lobosque <lucas.lobosque@contentools.com>
 
-Contributors
-------------
+## Contributors
 
 None yet. Why not be the first?
