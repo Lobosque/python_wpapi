@@ -2,4 +2,4 @@
 
 __author__ = """Lucas Lobosque"""
 __email__ = 'lucas.lobosque@contentools.com'
-__version__ = '0.2.1'
+__version__ = '0.3.0'
