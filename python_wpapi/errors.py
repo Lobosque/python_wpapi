@@ -13,6 +13,7 @@ class WpApiError(Exception):
         code = payload.get('code')
         message = payload.get('message')
         data = payload.get('data')
+        print('status code', status_code)
         if status_code == 400:
             return BadRequestWpApiError(code, message, data)
         elif status_code == 401:
@@ -21,6 +22,8 @@ class WpApiError(Exception):
             return ForbiddenWpApiError(code, message, data)
         elif status_code == 404:
             return NotFoundWpApiError(code, message, data)
+        elif status_code == 500:
+            return InternalErrorWpApiError(code, message, data)
         else:
             return WpApiError(status_code, code, message, data)
 
@@ -43,3 +46,8 @@ class ForbiddenWpApiError(WpApiError):
 class NotFoundWpApiError(WpApiError):
     def __init__(self, code='', message='', data={}):
         super(NotFoundWpApiError, self).__init__(404, code, message, data)
+
+
+class InternalErrorWpApiError(WpApiError):
+    def __init__(self, code='', message='', data={}):
+        super(InternalErrorWpApiError, self).__init__(500, code, message, data)
