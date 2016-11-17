@@ -52,26 +52,27 @@ def test_get_posts(mock, api):
 @patch.object(python_wpapi.WpApi, '_request')
 def test_get_post(mock, api):
     api.get_post(3)
-    mock.assert_called_with('http://base.url/wp-json/wp/v2/posts/3')
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/posts/3',
+        context='view')
 
 @patch.object(python_wpapi.WpApi, '_request')
 def test_create_post(mock, api):
     api.create_post(title='Title Here', content='Content Here')
-    kws = {
-      'title': 'Title Here',
-      'content': 'Content Here'
-    }
     mock.assert_called_with('http://base.url/wp-json/wp/v2/posts',
-        method='POST', **kws)
+        method='POST', title='Title Here', content='Content Here')
 
 @patch.object(python_wpapi.WpApi, '_request')
 def test_update_post(mock, api):
     api.update_post(id=5, title='Updated')
-    kws = {
-      'title': 'Updated',
-    }
     mock.assert_called_with('http://base.url/wp-json/wp/v2/posts/5',
-        method='POST', **kws)
+        method='POST', title='Updated')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_delete_post(mock, api):
+    api.delete_post(28)
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/posts/28',
+        force=False,
+        method='DELETE')
 
 @patch.object(python_wpapi.WpApi, '_request')
 def test_get_medias(mock, api):
@@ -81,7 +82,35 @@ def test_get_medias(mock, api):
 @patch.object(python_wpapi.WpApi, '_request')
 def test_get_media(mock, api):
     api.get_media(5)
-    mock.assert_called_with('http://base.url/wp-json/wp/v2/media/5')
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/media/5',
+        context='view')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_create_media(mock, api):
+    api.create_media(filename='file.png',
+        content_type='image/png',
+        file_data=b'123')
+    expected_headers = {'Content-Disposition': 'attachment; filename="file.png"'}
+    expected_files = {'file': ('file.png', b'123', 'image/png',
+        {'Expires': '0'})}
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/media',
+        method='POST',
+        headers=expected_headers,
+        files=expected_files)
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_update_media(mock, api):
+    api.update_media(6, email='john@smith')
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/media/6',
+        method='POST',
+        email='john@smith')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_delete_media(mock, api):
+    api.delete_media(7)
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/media/7',
+        force=False,
+        method='DELETE')
 
 @patch.object(python_wpapi.WpApi, '_request')
 def test_get_users(mock, api):
@@ -91,7 +120,31 @@ def test_get_users(mock, api):
 @patch.object(python_wpapi.WpApi, '_request')
 def test_get_user(mock, api):
     res = api.get_user(1)
-    mock.assert_called_with('http://base.url/wp-json/wp/v2/users/1')
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/users/1',
+        context='view')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_create_user(mock, api):
+    api.create_user(username='johndoe', email='john@doe', password='123')
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/users',
+        method='POST',
+        username='johndoe',
+        email='john@doe',
+        password='123')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_update_user(mock, api):
+    api.update_user(2, email='john@smith')
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/users/2',
+        method='POST',
+        email='john@smith')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_delete_user(mock, api):
+    api.delete_user(3)
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/users/3',
+        force=True,
+        method='DELETE')
 
 @patch.object(python_wpapi.WpApi, '_request')
 def test_get_taxonomies(mock, api):
@@ -102,9 +155,73 @@ def test_get_taxonomies(mock, api):
     mock.assert_called_with('http://base.url/wp-json/wp/v2/taxonomies', type='slug')
 
 @patch.object(python_wpapi.WpApi, '_request')
-def test_get_taxonomie(mock, api):
+def test_get_taxonomy(mock, api):
     api.get_taxonomy('slug')
     mock.assert_called_with('http://base.url/wp-json/wp/v2/taxonomies/slug')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_get_categories(mock, api):
+    api.get_categories()
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/categories')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_get_category(mock, api):
+    api.get_category(43)
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/categories/43',
+        context='view')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_create_category(mock, api):
+    api.create_category(name='Category Name')
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/categories',
+        method='POST',
+        name='Category Name')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_update_category(mock, api):
+    api.update_category(44, description='desc')
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/categories/44',
+        method='POST',
+        description='desc')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_delete_category(mock, api):
+    api.delete_category(45)
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/categories/45',
+        force=True,
+        method='DELETE')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_get_tags(mock, api):
+    api.get_tags()
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/tags')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_get_tag(mock, api):
+    api.get_tag(19)
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/tags/19',
+        context='view')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_create_tag(mock, api):
+    api.create_tag(name='Category Name')
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/tags',
+        method='POST',
+        name='Category Name')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_update_tag(mock, api):
+    api.update_tag(20, description='desc')
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/tags/20',
+        method='POST',
+        description='desc')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_delete_tag(mock, api):
+    api.delete_tag(21)
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/tags/21',
+        force=True,
+        method='DELETE')
 
 @patch.object(python_wpapi.requests, 'request')
 def test__request_get(mock, api):
@@ -117,6 +234,7 @@ def test__request_get(mock, api):
         auth=api.auth,
         params={'arg1': 'value'},
         json={},
+        files=None,
         headers={}
     )
 
@@ -132,6 +250,7 @@ def test__request_post(mock, api):
         auth=api.auth,
         params={},
         json={'arg1': 'value'},
+        files=None,
         headers={'header1': 'header2'}
     )
 
@@ -166,6 +285,14 @@ def test__request_404(mock, api):
     with pytest.raises(errors.NotFoundWpApiError) as e:
         api._request('endpoint4')
         assert e.status_code == 404
+
+@patch.object(python_wpapi.requests, 'request')
+def test__request_500(mock, api):
+    mock.return_value.json.return_value = {}
+    mock.return_value.status_code = 500
+    with pytest.raises(errors.InternalErrorWpApiError) as e:
+        api._request('endpoint4')
+        assert e.status_code == 500
 
 @patch.object(python_wpapi.requests, 'request')
 def test__request_generic(mock, api):
