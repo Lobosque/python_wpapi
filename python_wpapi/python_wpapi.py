@@ -12,10 +12,11 @@ class WpApi():
         self.base_url = base_url.strip('/') + '/wp-json/wp/v2'
 
     def _request(self, endpoint, method='GET', files=None, headers={}, **kwargs):
-        data = {}
         params = {}
         if method == 'GET':
             params = kwargs
+            data = None
+            headers = {'Content-Length': '0'}
         else:
             data = kwargs
 
