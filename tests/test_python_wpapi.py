@@ -233,9 +233,9 @@ def test__request_get(mock, api):
         'endpoint',
         auth=api.auth,
         params={'arg1': 'value'},
-        json={},
+        json=None,
         files=None,
-        headers={}
+        headers={'Content-Length': '0'}
     )
 
 @patch.object(python_wpapi.requests, 'request')
