@@ -5,11 +5,17 @@ from python_wpapi.errors import WpApiError
 
 class WpApi():
 
-    def __init__(self, base_url, user=None, password=None):
+    def __init__(self, base_url, user=None, password=None, headers_base={}):
         self.auth = None
         if user:
             self.auth = (user, password)
         self.base_url = base_url.strip('/') + '/wp-json/wp/v2'
+        self.headers_base = headers_base
+
+    def join_headers(self, headers):
+        if self.headers_base:
+            return dict(self.headers_base, **headers)
+        return headers
 
     def _request(self, endpoint, method='GET', files=None, headers={}, **kwargs):
         params = {}
@@ -20,7 +26,10 @@ class WpApi():
         else:
             data = kwargs
 
-        response = requests.request(method,
+        headers = self.join_headers(headers)
+
+        response = requests.request(
+            method,
             endpoint,
             auth=self.auth,
             params=params,

@@ -19,7 +19,7 @@ test_requirements = [
 
 setup(
     name='python_wpapi',
-    version='0.3.1',
+    version='0.3.2',
     description="Simple wrapper around the Wordpress REST API",
     long_description=readme + '\n\n' + history,
     author="Lucas Lobosque",

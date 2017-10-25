@@ -44,6 +44,20 @@ def test_auth():
     assert api2.auth == ('User', None)
     assert api3.auth == ('User', 'Password')
 
+def test_auth_header():
+    """
+        Check self.headers_base combinations
+    """
+    headers_base = {'User-agent': 'Mozilla/5.0 (X11; Linux x86_64)'}
+    headers = {'Content-Length': '0'}
+    api = python_wpapi.WpApi(
+        'http://base.url', user='User',
+        password='Password', headers_base=headers_base
+    )
+    assert api.headers_base == headers_base
+    assert api.join_headers({}) == headers_base
+    assert api.join_headers(headers) == dict(headers_base, **headers)
+
 @patch.object(python_wpapi.WpApi, '_request')
 def test_get_posts(mock, api):
     api.get_posts()
