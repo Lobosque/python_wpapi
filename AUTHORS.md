@@ -6,4 +6,5 @@
 
 ## Contributors
 
-None yet. Why not be the first?
+* Brunno Schardosin (https://github.com/scahrd)
+* Luciano Camargo Cruz (https://github.com/lccruz)

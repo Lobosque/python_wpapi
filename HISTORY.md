@@ -1,5 +1,9 @@
 # History
 
+## 0.3.2 (2017-10-25)
+
+* Added base Headers in request.
+
 ## 0.3.1 (2017-08-07)
 
 * Fixed bug where GET would send content in the request body.
