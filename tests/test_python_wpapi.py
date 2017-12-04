@@ -176,7 +176,16 @@ def test_get_taxonomy(mock, api):
 @patch.object(python_wpapi.WpApi, '_request')
 def test_get_categories(mock, api):
     api.get_categories()
-    mock.assert_called_with('http://base.url/wp-json/wp/v2/categories')
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/categories/?per_page=10')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_get_categories_with_20_items(mock, api):
+    categories_len = 20
+    mock.return_value = range(categories_len)
+    categories = api.get_categories('?per_page={}'.format(categories_len))
+    url_result = 'http://base.url/wp-json/wp/v2/categories/?per_page={}'.format(categories_len)
+    mock.assert_called_with(url_result)
+    assert len(categories) == categories_len
 
 @patch.object(python_wpapi.WpApi, '_request')
 def test_get_category(mock, api):

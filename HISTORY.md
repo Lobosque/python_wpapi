@@ -1,5 +1,9 @@
 # History
 
+## 0.3.3 (2017-12-04)
+
+* Parameters added to the endpoints of categories [lccruz]
+
 ## 0.3.2 (2017-10-25)
 
 * Added base Headers in request.
