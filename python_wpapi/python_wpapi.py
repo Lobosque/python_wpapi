@@ -35,7 +35,8 @@ class WpApi():
             params=params,
             json=data,
             headers=headers,
-            files=files
+            files=files,
+            verify=False
         )
         if not response.status_code // 100 == 2:
             error = WpApiError.factory(response)
