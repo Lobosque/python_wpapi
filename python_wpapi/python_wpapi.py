@@ -114,8 +114,8 @@ class WpApi():
         endpoint = '{}/taxonomies/{}'.format(self.base_url, slug)
         return self._request(endpoint)
 
-    def get_categories(self):
-        endpoint = '{}/categories'.format(self.base_url)
+    def get_categories(self, parameters='?per_page=10'):
+        endpoint = '{}/categories/{}'.format(self.base_url, parameters)
         return self._request(endpoint)
 
     def get_category(self, id, context='view'):
