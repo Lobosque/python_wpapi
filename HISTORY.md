@@ -1,5 +1,9 @@
 # History
 
+## 0.3.4 (2018-02-21)
+
+* Parameters added to the endpoints of users [lccruz]
+
 ## 0.3.3 (2017-12-04)
 
 * Parameters added to the endpoints of categories [lccruz]

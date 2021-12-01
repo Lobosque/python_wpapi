@@ -35,7 +35,8 @@ class WpApi():
             params=params,
             json=data,
             headers=headers,
-            files=files
+            files=files,
+            verify=False
         )
         if not response.status_code // 100 == 2:
             error = WpApiError.factory(response)
@@ -85,8 +86,8 @@ class WpApi():
         endpoint = '{}/media/{}'.format(self.base_url, id)
         return self._request(endpoint, method='DELETE', force=force)
 
-    def get_users(self):
-        endpoint = '{}/users'.format(self.base_url)
+    def get_users(self, parameters='?per_page=10'):
+        endpoint = '{}/users/{}'.format(self.base_url, parameters)
         return self._request(endpoint)
 
     def get_user(self, id, context='view'):

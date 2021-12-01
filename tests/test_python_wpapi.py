@@ -129,7 +129,16 @@ def test_delete_media(mock, api):
 @patch.object(python_wpapi.WpApi, '_request')
 def test_get_users(mock, api):
     api.get_users()
-    mock.assert_called_with('http://base.url/wp-json/wp/v2/users')
+    mock.assert_called_with('http://base.url/wp-json/wp/v2/users/?per_page=10')
+
+@patch.object(python_wpapi.WpApi, '_request')
+def test_get_users_with_20_items(mock, api):
+    users_len = 20
+    mock.return_value = range(users_len)
+    users = api.get_users('?per_page={}'.format(users_len))
+    url_result = 'http://base.url/wp-json/wp/v2/users/?per_page={}'.format(users_len)
+    mock.assert_called_with(url_result)
+    assert len(users) == users_len
 
 @patch.object(python_wpapi.WpApi, '_request')
 def test_get_user(mock, api):
